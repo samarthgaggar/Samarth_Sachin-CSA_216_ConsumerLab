@@ -11,10 +11,24 @@ public class Review {
   private static HashMap<String, Double> sentiment = new HashMap<String, Double>();
   private static ArrayList<String> posAdjectives = new ArrayList<String>();
   private static ArrayList<String> negAdjectives = new ArrayList<String>();
+
+  private static File getFile(String fileName) {
+    File direct = new File(fileName);
+    if (direct.exists()) {
+      return direct;
+    }
+
+    File parent = new File("..", fileName);
+    if (parent.exists()) {
+      return parent;
+    }
+
+    return direct;
+  }
   
   static{
     try {
-      Scanner input = new Scanner(new File("cleanSentiment.csv"));
+      Scanner input = new Scanner(getFile("cleanSentiment.csv"));
       while(input.hasNextLine()){
         String[] temp = input.nextLine().split(",");
         sentiment.put(temp[0],Double.parseDouble(temp[1]));
@@ -29,7 +43,7 @@ public class Review {
   
   //read in the positive adjectives in postiveAdjectives.txt
      try {
-      Scanner input = new Scanner(new File("positiveAdjectives.txt"));
+      Scanner input = new Scanner(getFile("positiveAdjectives.txt"));
       while(input.hasNextLine()){
         posAdjectives.add(input.nextLine().trim());
       }
@@ -41,7 +55,7 @@ public class Review {
  
   //read in the negative adjectives in negativeAdjectives.txt
      try {
-      Scanner input = new Scanner(new File("negativeAdjectives.txt"));
+      Scanner input = new Scanner(getFile("negativeAdjectives.txt"));
       while(input.hasNextLine()){
         negAdjectives.add(input.nextLine().trim());
       }
